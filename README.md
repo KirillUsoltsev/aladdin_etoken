@@ -1,3 +1,7 @@
+# AladdinEtoken.js
+
+ООП-обёртка для Aladdin eToken ГОСТ SDK
+
 ## Установка
 
 Скопировать [jquery.base64.min, aladdin_etoken.js] к себе на сайт, например, в
