@@ -137,7 +137,7 @@ var AladdinEtoken = {
   },
 
 	create_csr: function(dn) {
-    var container_id = AladdinEtoken.plugin().createContainer("A", "I-APEX");
+    var container_id = AladdinEtoken.plugin().createContainer("A", "ContainerName");
     var full_dn = ["CN", dn, "C", "RU"];
     var extensions = ["keyUsage", "digitalSignature"];
     var csr = AladdinEtoken.plugin().genCSR(container_id, full_dn, extensions);
