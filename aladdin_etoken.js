@@ -132,11 +132,31 @@ var AladdinEtoken = {
     return result;
   },
 
-	create_csr: function(dn) {
-    var container_id = AladdinEtoken.plugin().createContainer("A", "ContainerName");
-    var full_dn = ["CN", dn, "C", "RU"];
+  // Options:
+  // containerName (*) - Имя контейнера
+  // dn (*) - хеш с частями DN (например, {"CN": "Alexander Ivanov", "L": "Москва", "C": "RU"})
+  // extendedKeyUsage - расширенное использование ключа. OID через запятую (например: "1.3.6.1.5.5.7.3.2,1.3.6.1.5.5.7.3.4,1.2.643.6.3.1.2.1")
+  // certificatePolicies  - политики применения сертификата. OID через запятую (например: "1.2.643.3.8.100.1,1.2.643.3.8.100.1.2")
+	create_csr: function(options) {
+    var container_id = AladdinEtoken.plugin().createContainer("A", options.containerName);
+
+    var aladdin_format_dn = [];
+    for (var key in options.dn) {
+      aladdin_format_dn.push(key);
+      aladdin_format_dn.push(options.dn[key]);
+    }
+
     var extensions = ["keyUsage", "digitalSignature"];
-    var csr = AladdinEtoken.plugin().genCSR(container_id, full_dn, extensions);
+    if (options.extendedKeyUsage) {
+      extensions.push("extendedKeyUsage");
+      extensions.push(options.extendedKeyUsage);
+    }
+    if (options.certificatePolicies) {
+      extensions.push("certificatePolicies");
+      extensions.push(options.certificatePolicies);
+    }
+
+    var csr = AladdinEtoken.plugin().genCSR(container_id, aladdin_format_dn, extensions);
     var csr_encoded = AladdinEtoken._bytes_array_to_base64(csr);
 
     return csr_encoded;
