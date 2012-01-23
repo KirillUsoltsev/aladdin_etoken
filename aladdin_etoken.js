@@ -89,10 +89,6 @@ var AladdinEtoken = {
     return !AladdinEtoken.present();
   },
 
-  onInsert: function(func) {
-    // func();
-  },
-
   state_change: function(func) {
     AladdinEtoken.subscribe('loginstatechanged', function (state) {
       func(state);
